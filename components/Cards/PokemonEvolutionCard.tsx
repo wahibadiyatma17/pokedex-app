@@ -1,19 +1,12 @@
-import { useGetPokemons } from '@/common/hooks/pokemonHooks';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { FC, useMemo } from 'react';
-import { styled } from 'twin.macro';
-import PokemonTypeLabel from '../Labels/PokemonTypeLabel';
+import { css, styled } from 'twin.macro';
 
-interface BasePokemonCardProps {
-  name: string;
-  url?: string;
-  id: number;
-}
+import { useGetPokemons } from '@/common/hooks/pokemonHooks';
+import { generatePokemonId, PokemonCardProps } from './PokemonCard';
 
-export type PokemonCardProps = BasePokemonCardProps;
-
-const PokemonCard: FC<PokemonCardProps> = (props) => {
+const PokemonEvolutionCard: FC<PokemonCardProps> = (props) => {
   const { name, id } = props;
   const generatedId = generatePokemonId(id);
   const router = useRouter();
@@ -22,8 +15,8 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
   const detailPokemonData = useMemo(() => pokemonRes?.data ?? {}, [pokemonRes]);
 
   return (
-    <StyledPokemonCard
-      tw="shadow-lg transition-all"
+    <StyledPokemonEvolutionCard
+      tw="transition-all"
       onClick={() => router.push(`/pokemon-detail/${id}`)}
     >
       <div className="title__container">
@@ -38,35 +31,24 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
           style={{ objectFit: 'cover' }}
         />
       </div>
-      <div className="type__container">
-        {detailPokemonData?.types?.map((type: any, idx: number) => (
-          <PokemonTypeLabel pokeType={type?.type?.name} key={idx} />
-        ))}
-      </div>
-    </StyledPokemonCard>
+    </StyledPokemonEvolutionCard>
   );
 };
 
-export default PokemonCard;
+export default PokemonEvolutionCard;
 
-export const generatePokemonId = (id: number) => {
-  if (id < 10) return `00${id}`;
-  else if (id >= 10 && id < 100) return `0${id}`;
-  else return id;
-};
-
-const StyledPokemonCard = styled.div`
+const StyledPokemonEvolutionCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  height: 392px;
+  padding: 12px;
+  height: max-content;
   width: 256px;
   gap: 24px;
-  background-color: #97d2ff;
   border-radius: 12px;
   cursor: pointer;
+  background-color: #97d2ff;
 
   :hover {
     transform: scale(1.02);

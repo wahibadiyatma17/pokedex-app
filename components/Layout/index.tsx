@@ -15,7 +15,9 @@ const Layout: FC<LayoutProps> = (props) => {
   return (
     <div tw="min-h-screen w-screen relative ">
       <Header />
-      <div tw="max-w-[1366px] mx-auto h-[max-content] px-[72px] py-10">{children}</div>
+      <div tw="max-w-[1366px] mx-auto h-[max-content] flex flex-col gap-10 px-[72px] py-10">
+        {children}
+      </div>
       <Footer />
     </div>
   );

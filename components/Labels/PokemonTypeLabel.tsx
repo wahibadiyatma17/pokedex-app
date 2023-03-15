@@ -24,7 +24,7 @@ const cssLabelBg = (pokeType: string) => css`
   background-color: ${getLabelBg(pokeType)} !important;
 `;
 
-const getLabelBg = (pokeType: string) => {
+export const getLabelBg = (pokeType: string) => {
   switch (pokeType) {
     case 'grass':
       return '#7ac74c';
