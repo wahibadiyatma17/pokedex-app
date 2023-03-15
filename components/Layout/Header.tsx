@@ -4,7 +4,7 @@ import 'twin.macro';
 
 const Header: FC = () => {
   return (
-    <div tw="w-full h-[132px] flex items-center justify-center bg-[#97D2FF]">
+    <div tw="w-full h-[132px] flex items-center justify-center bg-[#97D2FF] shadow-md">
       <div tw="relative w-[200px] h-[68px]">
         <Image
           src={'/img/img-pokedex.png'}

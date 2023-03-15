@@ -13,9 +13,9 @@ type LayoutProps = BaseLayoutProps;
 const Layout: FC<LayoutProps> = (props) => {
   const { children } = props;
   return (
-    <div tw="min-h-screen w-screen relative flex flex-col">
+    <div tw="min-h-screen w-screen relative ">
       <Header />
-      {children}
+      <div tw="max-w-[1366px] mx-auto h-[max-content] px-[72px] py-10">{children}</div>
       <Footer />
     </div>
   );
