@@ -1,16 +1,16 @@
 import { DefaultSeoProps } from 'next-seo';
 
 const NEXT_SEO_CONFIG = {
-  defaultTitle: 'Company Title',
-  description: 'Comapny Description',
+  defaultTitle: 'Pokedex',
+  description: 'Pokedex App',
   canonical: '#',
   openGraph: {
     type: 'website',
     title: 'Company',
-    description: 'Comapny Description',
+    description: 'Pokedex App',
     images: [
       {
-        url: '/vercel.svg',
+        url: '/icon/icon-pokedex.png',
         width: 640,
         height: 640,
         alt: 'company-logo',
