@@ -4,7 +4,7 @@ import 'twin.macro';
 
 const Footer: FC = () => {
   return (
-    <div tw="w-full  flex items-center justify-center bg-[#97D2FF] p-6">
+    <div tw="flex items-center justify-center bg-[#97D2FF] p-6">
       <div tw="flex flex-col items-center justify-center">
         <h3 tw="text-base font-semibold text-white">
           Developed by <strong>Wahib Adiyatma</strong>

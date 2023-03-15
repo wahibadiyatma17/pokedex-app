@@ -1,11 +1,17 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { useDebounce } from 'usehooks-ts';
 import { styled } from 'twin.macro';
 
 import { TextInput } from '@/components/Froms/Text';
 import PokemonCard from '@/components/Cards/PokemonCard';
+import { useGetPokemons } from '@/common/hooks/pokemonHooks';
+import SkeletonPokemonCard from '@/components/Skeleton/SkeletonPokemonCard';
 
 const HomePokeList: FC = () => {
   const [searchValue, setSearchValue] = useState('');
+  const { data: pokemonRes } = useGetPokemons(searchValue);
+  const pokemonData = useMemo(() => pokemonRes?.data ?? {}, [pokemonRes]);
+
   return (
     <StyledHomePokeList>
       <div className="search__container">
@@ -17,15 +23,29 @@ const HomePokeList: FC = () => {
         />
       </div>
       <div className="poke-card__container">
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((data, idx) => (
-          <PokemonCard key={idx} />
-        ))}
+        {!!!pokemonRes ? (
+          renderLoading()
+        ) : !!searchValue ? (
+          <PokemonCard name={pokemonData.name} id={pokemonData.id} />
+        ) : (
+          pokemonData?.results?.map((data: { name: string; url: string }, idx: number) => (
+            <PokemonCard key={idx} name={data.name} url={data.url} id={idx + 1} />
+          ))
+        )}
       </div>
     </StyledHomePokeList>
   );
 };
 
 export default HomePokeList;
+
+const renderLoading = () => (
+  <>
+    {[0, 1, 2, 3].map((data: number) => (
+      <SkeletonPokemonCard key={data} />
+    ))}
+  </>
+);
 
 const StyledHomePokeList = styled.div`
   display: flex;

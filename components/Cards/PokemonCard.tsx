@@ -1,32 +1,54 @@
+import { useGetPokemons } from '@/common/hooks/pokemonHooks';
 import Image from 'next/image';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { styled } from 'twin.macro';
 import PokemonTypeLabel from '../Labels/PokemonTypeLabel';
 
-const PokemonCard: FC = () => {
+interface BasePokemonCardProps {
+  name: string;
+  url?: string;
+  id: number;
+}
+
+type PokemonCardProps = BasePokemonCardProps;
+
+const PokemonCard: FC<PokemonCardProps> = (props) => {
+  const { name, id } = props;
+  const generatedId = generatePokemonId(id);
+
+  const { data: pokemonRes } = useGetPokemons(id.toString());
+  const detailPokemonData = useMemo(() => pokemonRes?.data ?? {}, [pokemonRes]);
+
   return (
     <StyledPokemonCard tw="shadow-lg">
       <div className="title__container">
-        <h3>Bulbasaur</h3>
-        <span>#001</span>
+        <h3>{name}</h3>
+        <span>#{generatedId}</span>
       </div>
       <div className="image__container">
         <Image
-          src={'/img/img-pokemon-dummy.png'}
+          src={`https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${generatedId}.png`}
           alt={'img pokemon'}
           fill
           style={{ objectFit: 'cover' }}
         />
       </div>
       <div className="type__container">
-        <PokemonTypeLabel />
-        <PokemonTypeLabel />
+        {detailPokemonData.types.map((type: any, idx: number) => (
+          <PokemonTypeLabel pokeType={type?.type?.name} key={idx} />
+        ))}
       </div>
     </StyledPokemonCard>
   );
 };
 
 export default PokemonCard;
+
+const generatePokemonId = (id: number) => {
+  if (id < 10) return `00${id}`;
+  else if (id >= 10 && id < 100) return `0${id}`;
+  else return id;
+};
 
 const StyledPokemonCard = styled.div`
   display: flex;
