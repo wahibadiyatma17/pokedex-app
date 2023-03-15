@@ -1,20 +1,34 @@
-import Head from "next/head";
-import { NextPage } from "next";
-import React from "react";
-import "twin.macro";
+import React from 'react';
+import { NextPage } from 'next';
+import 'twin.macro';
 
-const Index: NextPage = () => {
+import SEO from '@/common/seo';
+import Home from '@/components/Container/Home';
+
+const HomePage: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Home</title>
-        <meta name="description" content={""} />
-      </Head>
-      <div tw="min-h-screen w-full flex items-center justify-center">
-        <h3 tw="text-xl font-bold">Welcome to homepage!</h3>
-      </div>
+      <SEO
+        title="Pokedex"
+        description="Pokedex App"
+        openGraph={{
+          type: 'website',
+          title: 'Pokedex',
+          description: 'Pokedex App',
+          images: [
+            {
+              url: '/img/img-pokedex.ppng',
+              alt: 'pokedex-icon',
+            },
+          ],
+          url: '#',
+          locale: 'en_US',
+          site_name: 'Pokedex',
+        }}
+      />
+      <Home />
     </>
   );
 };
 
-export default Index;
+export default HomePage;
