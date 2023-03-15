@@ -2,9 +2,9 @@ import Image from 'next/image';
 import React, { FC } from 'react';
 import 'twin.macro';
 
-const HomeHeader: FC = () => {
+const Header: FC = () => {
   return (
-    <div tw="w-full h-[132px] flex items-center justify-center bg-[#5DB9FF]">
+    <div tw="w-full h-[132px] flex items-center justify-center bg-[#97D2FF]">
       <div tw="relative w-[200px] h-[68px]">
         <Image
           src={'/img/img-pokedex.png'}
@@ -17,4 +17,4 @@ const HomeHeader: FC = () => {
   );
 };
 
-export default HomeHeader;
+export default Header;

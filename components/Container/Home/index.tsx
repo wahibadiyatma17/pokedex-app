@@ -1,14 +1,10 @@
 import React, { FC } from 'react';
 import 'twin.macro';
 
-import HomeHeader from './HomeHeader';
+import Layout from '../Layout';
 
 const Home: FC = () => {
-  return (
-    <div tw="min-h-screen w-screen flex flex-col">
-      <HomeHeader />
-    </div>
-  );
+  return <Layout></Layout>;
 };
 
 export default Home;
