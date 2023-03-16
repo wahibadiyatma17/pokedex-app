@@ -6,11 +6,6 @@ import PokemonProfile from './PokemonProfile';
 import PokemonEvolution from './PokemonEvolution';
 
 const PokemonDetail: FC = () => {
-  return (
-    <Layout>
-      <PokemonProfile />
-      <PokemonEvolution />
-    </Layout>
-  );
+  return <Layout>{/* <PokemonProfile /> */}</Layout>;
 };
 export default PokemonDetail;

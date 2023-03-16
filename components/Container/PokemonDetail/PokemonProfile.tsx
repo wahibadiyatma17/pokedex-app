@@ -1,11 +1,33 @@
+import {
+  useGetPokemonEvolutionChain,
+  useGetPokemons,
+  useGetPokemonSpecies,
+} from '@/common/hooks/pokemonHooks';
 import PokemonDetailCard from '@/components/Cards/PokemonDetailCard';
-import React, { FC } from 'react';
+import { useRouter } from 'next/router';
+import React, { FC, useMemo } from 'react';
 import { styled } from 'twin.macro';
 
 const PokemonProfile: FC = () => {
+  const router = useRouter();
+  const id = router.query.id;
+  const parsedId = String(id);
+
+  const { data: pokemonSpeciesRes } = useGetPokemonSpecies(parsedId);
+  const { data: pokemonDetailRes } = useGetPokemons(parsedId);
+  const pokemonSpeciesData = useMemo(() => pokemonSpeciesRes?.data ?? {}, [pokemonSpeciesRes]);
+  const pokemonDetailData = useMemo(() => pokemonDetailRes?.data ?? {}, [pokemonDetailRes]);
+
+  const pokemonHeight = pokemonDetailData.height * 0.1;
+  const pokemonWeight = pokemonDetailData.weight * 0.1;
+  const pokemonAbilities = pokemonDetailData?.abilities?.map((data: any) => {
+    return data?.ability?.name;
+  });
+  const pokemonHabitat = pokemonSpeciesData?.habitat?.name ?? '-';
+
   return (
     <StyledPokemonProfile>
-      <PokemonDetailCard name={'Bulbasaur'} id={1} />
+      <PokemonDetailCard name={pokemonSpeciesData.name} id={parseInt(parsedId)} />
       <div className="pokemon-description__container">
         <span className="pokemon-description__text">
           Sometimes seen at the foot of trees in humid forests. The mushrooms on its back—called
@@ -15,11 +37,11 @@ const PokemonProfile: FC = () => {
           <div tw="flex flex-col justify-between w-full text-white gap-10">
             <div tw="flex flex-col">
               <span tw="font-medium text-base">Height</span>
-              <span tw="font-semibold text-lg">0.3 M</span>
+              <span tw="font-semibold text-lg">{pokemonHeight} M</span>
             </div>
             <div tw="flex flex-col ">
               <span tw="font-medium text-base">Weight</span>
-              <span tw="font-semibold text-lg">5.4 Kg</span>
+              <span tw="font-semibold text-lg">{pokemonWeight} Kg</span>
             </div>
             <div tw="flex flex-col ">
               <span tw="font-medium text-base">Gender</span>
@@ -29,15 +51,22 @@ const PokemonProfile: FC = () => {
           <div tw="flex flex-col justify-between w-full text-white gap-10">
             <div tw="flex flex-col ">
               <span tw="font-medium text-base">Capture rate</span>
-              <span tw="font-semibold text-lg">190%</span>
+              <span tw="font-semibold text-lg">{pokemonSpeciesData.capture_rate}%</span>
             </div>
             <div tw="flex flex-col ">
               <span tw="font-medium text-base">Abilities</span>
-              <span tw="font-semibold text-lg">Effect-Spore, Dry-Skin, Damp</span>
+              <div tw="flex gap-2">
+                {pokemonAbilities.map((ability: string, idx: number) => (
+                  <span tw="font-semibold text-lg capitalize" key={idx}>
+                    {ability}
+                    {idx + 1 !== pokemonAbilities.length && ', '}
+                  </span>
+                ))}
+              </div>
             </div>
             <div tw="flex flex-col ">
               <span tw="font-medium text-base">Habitat</span>
-              <span tw="font-semibold text-lg">Forest</span>
+              <span tw="font-semibold text-lg capitalize">{pokemonHabitat}</span>
             </div>
           </div>
         </div>

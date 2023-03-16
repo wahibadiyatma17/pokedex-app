@@ -6,18 +6,24 @@ import { css, styled } from 'twin.macro';
 import { useGetPokemons } from '@/common/hooks/pokemonHooks';
 import { generatePokemonId, PokemonCardProps } from './PokemonCard';
 
-const PokemonEvolutionCard: FC<PokemonCardProps> = (props) => {
-  const { name, id } = props;
-  const generatedId = generatePokemonId(id);
+interface BasePokemonEvolutionProps {
+  name: string;
+}
+
+type PokemonEvolutionProps = BasePokemonEvolutionProps;
+
+const PokemonEvolutionCard: FC<PokemonEvolutionProps> = (props) => {
+  const { name } = props;
   const router = useRouter();
 
-  const { data: pokemonRes } = useGetPokemons(id.toString());
+  const { data: pokemonRes } = useGetPokemons(name);
   const detailPokemonData = useMemo(() => pokemonRes?.data ?? {}, [pokemonRes]);
+  const generatedId = generatePokemonId(detailPokemonData.id);
 
   return (
     <StyledPokemonEvolutionCard
       tw="transition-all"
-      onClick={() => router.push(`/pokemon-detail/${id}`)}
+      onClick={() => router.push(`/pokemon-detail/${detailPokemonData.id}`)}
     >
       <div className="title__container">
         <h3>{name}</h3>

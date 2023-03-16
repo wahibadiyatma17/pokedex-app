@@ -1,8 +1,9 @@
 import SEO from '@/common/seo';
 import React, { FC } from 'react';
 import PokemonDetail from '@/components/Container/PokemonDetail';
+import { NextPage } from 'next';
 
-const PokemonDetailPage: FC = () => {
+const PokemonDetailPage: NextPage = () => {
   return (
     <>
       <SEO

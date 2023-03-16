@@ -20,7 +20,7 @@ const PokemonDetailCard: FC<PokemonCardProps> = (props) => {
       onClick={() => router.push(`/pokemon-detail/${id}`)}
     >
       <div className="title__container">
-        <h3>{name}</h3>
+        <h3 tw="capitalize">{name}</h3>
         <span>#{generatedId}</span>
       </div>
       <div className="image__container">
