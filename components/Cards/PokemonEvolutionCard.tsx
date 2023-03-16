@@ -1,30 +1,29 @@
-import { useGetPokemons } from '@/common/hooks/pokemonHooks';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { FC, useMemo } from 'react';
-import { styled } from 'twin.macro';
-import PokemonTypeLabel from '../Labels/PokemonTypeLabel';
+import { css, styled } from 'twin.macro';
 
-interface BasePokemonCardProps {
+import { useGetPokemons } from '@/common/hooks/pokemonHooks';
+import { generatePokemonId, PokemonCardProps } from './PokemonCard';
+
+interface BasePokemonEvolutionProps {
   name: string;
-  url?: string;
-  id: number;
 }
 
-export type PokemonCardProps = BasePokemonCardProps;
+type PokemonEvolutionProps = BasePokemonEvolutionProps;
 
-const PokemonCard: FC<PokemonCardProps> = (props) => {
-  const { name, id } = props;
-  const generatedId = generatePokemonId(id);
+const PokemonEvolutionCard: FC<PokemonEvolutionProps> = (props) => {
+  const { name } = props;
   const router = useRouter();
 
-  const { data: pokemonRes } = useGetPokemons(id.toString());
+  const { data: pokemonRes } = useGetPokemons(name);
   const detailPokemonData = useMemo(() => pokemonRes?.data ?? {}, [pokemonRes]);
+  const generatedId = generatePokemonId(detailPokemonData.id);
 
   return (
-    <StyledPokemonCard
-      tw="shadow-lg transition-all"
-      onClick={() => router.push(`/pokemon-detail/${id}`)}
+    <StyledPokemonEvolutionCard
+      tw="transition-all"
+      onClick={() => router.push(`/pokemon-detail/${detailPokemonData.id}`)}
     >
       <div className="title__container">
         <h3>{name}</h3>
@@ -38,35 +37,24 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
           style={{ objectFit: 'cover' }}
         />
       </div>
-      <div className="type__container">
-        {detailPokemonData?.types?.map((type: any, idx: number) => (
-          <PokemonTypeLabel pokeType={type?.type?.name} key={idx} />
-        ))}
-      </div>
-    </StyledPokemonCard>
+    </StyledPokemonEvolutionCard>
   );
 };
 
-export default PokemonCard;
+export default PokemonEvolutionCard;
 
-export const generatePokemonId = (id: number) => {
-  if (id < 10) return `00${id}`;
-  else if (id >= 10 && id < 100) return `0${id}`;
-  else return id;
-};
-
-const StyledPokemonCard = styled.div`
+const StyledPokemonEvolutionCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  height: 392px;
+  padding: 12px;
+  height: max-content;
   width: 256px;
   gap: 24px;
-  background-color: #97d2ff;
   border-radius: 12px;
   cursor: pointer;
+  background-color: #97d2ff;
 
   :hover {
     transform: scale(1.02);

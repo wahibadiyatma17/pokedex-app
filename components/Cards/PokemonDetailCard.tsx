@@ -4,16 +4,9 @@ import { useRouter } from 'next/router';
 import React, { FC, useMemo } from 'react';
 import { styled } from 'twin.macro';
 import PokemonTypeLabel from '../Labels/PokemonTypeLabel';
+import { generatePokemonId, PokemonCardProps } from './PokemonCard';
 
-interface BasePokemonCardProps {
-  name: string;
-  url?: string;
-  id: number;
-}
-
-export type PokemonCardProps = BasePokemonCardProps;
-
-const PokemonCard: FC<PokemonCardProps> = (props) => {
+const PokemonDetailCard: FC<PokemonCardProps> = (props) => {
   const { name, id } = props;
   const generatedId = generatePokemonId(id);
   const router = useRouter();
@@ -22,12 +15,12 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
   const detailPokemonData = useMemo(() => pokemonRes?.data ?? {}, [pokemonRes]);
 
   return (
-    <StyledPokemonCard
+    <StyledPokemonDetailCard
       tw="shadow-lg transition-all"
       onClick={() => router.push(`/pokemon-detail/${id}`)}
     >
       <div className="title__container">
-        <h3>{name}</h3>
+        <h3 tw="capitalize">{name}</h3>
         <span>#{generatedId}</span>
       </div>
       <div className="image__container">
@@ -43,26 +36,20 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
           <PokemonTypeLabel pokeType={type?.type?.name} key={idx} />
         ))}
       </div>
-    </StyledPokemonCard>
+    </StyledPokemonDetailCard>
   );
 };
 
-export default PokemonCard;
+export default PokemonDetailCard;
 
-export const generatePokemonId = (id: number) => {
-  if (id < 10) return `00${id}`;
-  else if (id >= 10 && id < 100) return `0${id}`;
-  else return id;
-};
-
-const StyledPokemonCard = styled.div`
+const StyledPokemonDetailCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 16px;
   height: 392px;
-  width: 256px;
+  width: 100%;
   gap: 24px;
   background-color: #97d2ff;
   border-radius: 12px;

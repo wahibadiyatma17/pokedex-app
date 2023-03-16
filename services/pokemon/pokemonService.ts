@@ -6,12 +6,17 @@ export const getPokemons = (searchQuery?: string) => {
   else return axios.get(pokemonEndpoint.pokemon);
 };
 
-// export const getAllPokemon = (params?: any) => {
-//   const options = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     params,
-//   } as AxiosRequestConfig;
-//   return axios.get(pokemonEndpoint.pokemon, options);
-// };
+export const getPokemonTypes = (searchQuery?: string) => {
+  if (searchQuery !== undefined) return axios.get(pokemonEndpoint.pokemonType + `/${searchQuery}`);
+  else return axios.get(pokemonEndpoint.pokemonType);
+};
+
+export const getPokemonSpecies = (searchQuery?: string) => {
+  if (searchQuery !== undefined)
+    return axios.get(pokemonEndpoint.pokemonSpecies + `/${searchQuery}`);
+  else return axios.get(pokemonEndpoint.pokemonSpecies);
+};
+
+export const getPokemonEvolutionChain = (id?: number) => {
+  return axios.get(pokemonEndpoint.pokemonEvolution + `/${id}`);
+};
