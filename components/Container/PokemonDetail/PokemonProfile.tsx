@@ -54,7 +54,7 @@ const PokemonProfile: FC = () => {
                 <div tw="flex flex-col ">
                   <span tw="font-medium text-base">Abilities</span>
                   <div tw="flex gap-2">
-                    {pokemonAbilities.map((ability: string, idx: number) => (
+                    {pokemonAbilities?.map((ability: string, idx: number) => (
                       <span tw="font-semibold text-lg capitalize" key={idx}>
                         {ability}
                         {idx + 1 !== pokemonAbilities.length && ', '}
